@@ -68,6 +68,7 @@ class Hangman extends Component {
     ));
   }
 
+  // gameState determines the status of the game and end of game
   gameState() {
     const gameOver = this.state.nWrong >= this.props.maxWrong;
     const isWinner = this.guessedWord().join("") === this.state.answer;
@@ -81,12 +82,8 @@ class Hangman extends Component {
 
   /** render: render game */
   render() {
-    // const gameOver = this.state.nWrong >= this.props.maxWrong;
+
     const altText = `${this.state.nWrong} wrong guesses`
-    // const isWinner = this.guessedWord().join("") === this.state.answer;
-    // let gameState = this.generateButtons();
-    // if (gameOver) gameState = "You've lost!"
-    // if (isWinner) gameState = "You've won!"
 
     return (
       <div className='Hangman'>

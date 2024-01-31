@@ -21,6 +21,7 @@ class Hangman extends Component {
     this.state = { nWrong: 0, guessed: new Set(), answer: randomWord() };
     this.handleGuess = this.handleGuess.bind(this);
     this.reset = this.reset.bind(this);
+    this.gameState = this.gameState.bind(this);
   }
 
   /** guessedWord: show current-state of word:
@@ -44,6 +45,7 @@ class Hangman extends Component {
     }));
   }
 
+  // resets the state to restart game
   reset() {
     this.setState({
       guessed: new Set(),
@@ -66,14 +68,25 @@ class Hangman extends Component {
     ));
   }
 
-  /** render: render game */
-  render() {
+  gameState() {
     const gameOver = this.state.nWrong >= this.props.maxWrong;
-    const altText = `${this.state.nWrong} wrong guesses`
     const isWinner = this.guessedWord().join("") === this.state.answer;
     let gameState = this.generateButtons();
-    if (gameOver) gameState = "You've lost!"
-    if (isWinner) gameState = "You've won!"
+
+    if (gameOver) gameState = "You've lost!";
+    if (isWinner) gameState = "You've won!";
+
+    return gameState;
+  };
+
+  /** render: render game */
+  render() {
+    // const gameOver = this.state.nWrong >= this.props.maxWrong;
+    const altText = `${this.state.nWrong} wrong guesses`
+    // const isWinner = this.guessedWord().join("") === this.state.answer;
+    // let gameState = this.generateButtons();
+    // if (gameOver) gameState = "You've lost!"
+    // if (isWinner) gameState = "You've won!"
 
     return (
       <div className='Hangman'>
@@ -81,9 +94,9 @@ class Hangman extends Component {
         <img src={this.props.images[this.state.nWrong]} alt={altText} />
         <p className='Hangman-wrong'>Wrong Guesses: {this.state.nWrong}</p>
         <p className='Hangman-word'>
-          {!gameOver ? this.guessedWord() : this.state.answer}
+          {this.gameState() !== "gameOver" ? this.guessedWord() : this.state.answer}
         </p>
-        <p className='Hangman-btns'>{gameState}</p> 
+        <p className='Hangman-btns'>{this.gameState()}</p> 
         <button id='reset' onClick={this.reset} >Restart?</button>
       </div>
     );
